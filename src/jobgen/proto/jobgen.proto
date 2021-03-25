@@ -1,0 +1,33 @@
+syntax = "proto3";
+
+option go_package = "github.com/redorb/k8s-playground/src/api-ingest/proto";
+
+package proto;
+
+// The api ingest service definition.
+service JobGen {
+  // Sends a request to initiate a crawler job
+  rpc GenerateCrawlerJob(CrawlerJobRequest) returns (CrawlerJobReply) {}
+  // A server-to-client streaming RPC.
+  //
+  // Generates fake text to simulate a one way info stream
+  rpc StreamChatter(ChatterRequest) returns (stream Chatter) {}
+}
+
+// The request message containing the crawler url
+message CrawlerJobRequest { string url = 1; }
+
+// The response message containing the crawler reply
+message CrawlerJobReply { string message = 1; }
+
+// A chatter request, represented as single requesting name
+message ChatterRequest { string name = 1; }
+
+// A chatter simulates a ongoing one way text stream
+message Chatter {
+  // The name of the chatter requester.
+  string name = 1;
+
+  // The simulated chatter
+  string chatter = 2;
+}
